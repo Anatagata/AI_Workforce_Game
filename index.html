@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Workforce Evolution</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        button { margin: 10px; padding: 10px; font-size: 16px; cursor: pointer; }
+        #status { margin: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>AI Workforce Evolution</h1>
+    <div id="status">Loading game status...</div>
+    <button onclick="chooseAction('fast_ai_integration')">Fast AI Integration</button>
+    <button onclick="chooseAction('gradual_ai_training')">Gradual AI Training</button>
+    <button onclick="chooseAction('reskill_redeploy')">Reskill & Redeploy</button>
+    <button onclick="chooseAction('ai_ethics_compliance')">AI Ethics & Compliance</button>
+
+    <script>
+        async function updateStatus() {
+            let response = await fetch('/game_status');
+            let data = await response.json();
+            document.getElementById('status').innerHTML = `
+                <p><b>Year:</b> ${data.year}</p>
+                <p><b>AI Adoption Rate:</b> ${data.ai_adoption}%</p>
+                <p><b>Workforce Satisfaction:</b> ${data.workforce_satisfaction}%</p>
+                <p><b>Redundancy Rate:</b> ${data.redundancy_rate}%</p>
+                <p><b>Compliance Score:</b> ${data.compliance_score}%</p>
+                <p><b>Budget Points:</b> ${data.budget}</p>
+            `;
+        }
+
+        async function chooseAction(action) {
+            await fetch('/choose_action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            });
+            updateStatus();
+        }
+
+        updateStatus();
+    </script>
+</body>
+</html>
